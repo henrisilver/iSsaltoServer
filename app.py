@@ -1,10 +1,12 @@
+from flask import Flask
+import os
 import psycopg2
 import urlparse
-from flask import Flask
+
 app = Flask(__name__)
 
 urlparse.uses_netloc.append("postgres")
-url = urlparse.urlparse("postgres://lijoleyfufklmt:thhCUh_hMA8bN2gUwmvmefYdNL@ec2-54-235-254-199.compute-1.amazonaws.com:5432/dfopjhaf40r7qr")
+url = urlparse.urlparse(os.environ["DB_URL"])
 
 conn = psycopg2.connect(
     database=url.path[1:],
