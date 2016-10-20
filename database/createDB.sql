@@ -13,17 +13,17 @@ CREATE TABLE TipoOcorrencia( -- Tabela que modela um tipo de ocorrencia
 CREATE TABLE Usuario( -- Tabela que modela um usuario do sistema
 	Username varchar(45) NOT NULL PRIMARY KEY, -- Username do usuario
 	Hash varchar(45) NOT NULL, -- hash criada pela API do facebook para autenticacao
-	RaioDeBusca real NOT NULL, -- raio a partir do ponto de interesse do usurario para busca de ocorrencias
-	PosX real NOT NULL, -- longitude do ponto de interesse do usuario
-	PosY real NOT NULL -- latitude do ponto de interesse do usuario
+	RaioDeBusca double precision NOT NULL, -- raio a partir do ponto de interesse do usurario para busca de ocorrencias
+	PosX double precision NOT NULL, -- longitude do ponto de interesse do usuario
+	PosY double precision NOT NULL -- latitude do ponto de interesse do usuario
 );
 
 CREATE TABLE Ocorrencia( -- Tabela que modela uma ocorrencia registrada
-	Id integer NOT NULL PRIMARY KEY, -- Identificador da Ocorrencia
+	Id serial NOT NULL PRIMARY KEY, -- Identificador da Ocorrencia
 	Username varchar(45) NOT NULL REFERENCES Usuario(Username), -- Username que registrou a ocorrencia
 	Tipo integer NOT NULL REFERENCES TipoOcorrencia(Id), -- Tipo da ocorrencia em questao
 	OcorrenciaTimestamp timestamp NOT NULL, -- Timestamp da ocorrencia
-	LocalizacaoX real NOT NULL, -- Longitude da ocorrencia
-	LocalizacaoY real NOT NULL, -- Latitude da ocorrencia
+	LocalizacaoX double precision NOT NULL, -- Longitude da ocorrencia
+	LocalizacaoY double precision NOT NULL, -- Latitude da ocorrencia
 	Descricao varchar(450) -- Descricao opcional da ocorrencia
 );

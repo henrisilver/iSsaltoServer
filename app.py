@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 import os
 import psycopg2
 import urlparse
@@ -22,6 +22,21 @@ cur = conn.cursor()
 def hello():
     return "This is iSsalto. Welcome. Made by iSsaltantes."
 
+@app.route('/insertOccurrence/', methods=['POST'])
+def insertOccurrence():
+
+    user = request.form['username']
+    occurrenceType = request.form['type']
+    timestamp = request.form['timestamp']
+    posx = request.form['posx']
+    posy= request.form['posy']
+    description = request.form['description']
+    
+    try:
+        cur.execute("""INSERT INTO OCORRENCIA (Usename, Tipo, OcorrenciaTimestamp, LocalizacaoX, LocalizacaoY, Descricao) VALUES('{}','{}','{}','{}','{}','{}');""".format(user, occurrenceType, timestamp, posx, posy, description))
+    except:
+        return "Failed to fetch from table."
+        
 @app.route('/ocorrencias/u=<username>')
 def getOcorrencias(username):
     try:
