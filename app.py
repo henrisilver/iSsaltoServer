@@ -26,14 +26,16 @@ def hello():
 def insertOccurrence():
 
     user = request.form['username']
+    print(user)
     occurrenceType = request.form['type']
+    print(occurrenceType)
     timestamp = request.form['timestamp']
     posx = request.form['posx']
     posy= request.form['posy']
     description = request.form['description']
     
     try:
-        data = (str(user), int(occurrenceType), str(timestamp), float(posx), float(posy), str(description),)
+        data = (user, int(occurrenceType), timestamp, float(posx), float(posy), description,)
         cur.execute("""INSERT INTO OCORRENCIA (Usename, Tipo, OcorrenciaTimestamp, LocalizacaoX, LocalizacaoY, Descricao) VALUES(%s %s %s %s %s %s);""", data)
         return cur.statusmessage
     except:
@@ -42,10 +44,11 @@ def insertOccurrence():
 @app.route('/ocorrencias/u=<username>')
 def getOcorrencias(username):
     try:
-        data = (str(username),)
+        data = (username,)
         cur.execute("""SELECT * from Usuario where Username=%s;""", data)
+        print(cur.query)
     except:
-        return "Failed to fetch from table." + str(cur.statusmessage)
+        return "Failed to fetch from table."
 
     rows = cur.fetchall()
     if len(rows) != 1:
