@@ -33,16 +33,18 @@ def insertOccurrence():
     description = request.form['description']
     
     try:
-        cur.execute("""INSERT INTO OCORRENCIA (Usename, Tipo, OcorrenciaTimestamp, LocalizacaoX, LocalizacaoY, Descricao) VALUES({},{},{},{},{},{});""".format(str(user), int(occurrenceType), str(timestamp), float(posx), float(posy), str(description)))
+        data = (str(user), int(occurrenceType), str(timestamp), float(posx), float(posy), str(description),)
+        cur.execute("""INSERT INTO OCORRENCIA (Usename, Tipo, OcorrenciaTimestamp, LocalizacaoX, LocalizacaoY, Descricao) VALUES(%s %s %s %s %s %s);""", data)
     except:
         return "Failed to fetch from table."
         
 @app.route('/ocorrencias/u=<username>')
 def getOcorrencias(username):
     try:
-        cur.execute("""SELECT * from Usuario where Username={};""".format(str(username))
+        data = (str(username),)
+        cur.execute("""SELECT * from Usuario where Username=%s;""", data)
     except:
-        return "Failed to fetch from table."
+        return cur.statusmessage
 
     rows = cur.fetchall()
     if len(rows) != 1:
