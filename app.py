@@ -36,7 +36,7 @@ def insertOccurrence():
         data = (str(user), int(occurrenceType), str(timestamp), float(posx), float(posy), str(description),)
         cur.execute("""INSERT INTO OCORRENCIA (Usename, Tipo, OcorrenciaTimestamp, LocalizacaoX, LocalizacaoY, Descricao) VALUES(%s %s %s %s %s %s);""", data)
     except:
-        return "Failed to fetch from table."
+        return cur.statusmessage
         
 @app.route('/ocorrencias/u=<username>')
 def getOcorrencias(username):
@@ -44,7 +44,7 @@ def getOcorrencias(username):
         data = (str(username),)
         cur.execute("""SELECT * from Usuario where Username=%s;""", data)
     except:
-        return cur.statusmessage
+        return "Failed to fetch from table."
 
     rows = cur.fetchall()
     if len(rows) != 1:
