@@ -16,6 +16,7 @@ conn = psycopg2.connect(
     port=url.port
 )
 
+conn.autocommit = True
 cur = conn.cursor()
 
 @app.route('/')
@@ -26,9 +27,7 @@ def hello():
 def insertOccurrence():
 
     user = request.form['username']
-    print(user)
     occurrenceType = request.form['type']
-    print(occurrenceType)
     timestamp = request.form['timestamp']
     posx = request.form['posx']
     posy= request.form['posy']
@@ -36,17 +35,17 @@ def insertOccurrence():
     
     try:
         data = (user, int(occurrenceType), timestamp, float(posx), float(posy), description,)
-        cur.execute("""INSERT INTO OCORRENCIA (Usename, Tipo, OcorrenciaTimestamp, LocalizacaoX, LocalizacaoY, Descricao) VALUES(%s %s %s %s %s %s);""", data)
+        cur.execute("""INSERT INTO OCORRENCIA (Username, Tipo, OcorrenciaTimestamp, LocalizacaoX, LocalizacaoY, Descricao) VALUES(%s, %s, %s, %s, %s, %s);""", data)
         return cur.statusmessage
-    except:
-        return cur.statusmessage
+    except Exception as e:
+        print(e)
+        return "Failed to insert occurence into table"
         
 @app.route('/ocorrencias/u=<username>')
 def getOcorrencias(username):
     try:
         data = (username,)
         cur.execute("""SELECT * from Usuario where Username=%s;""", data)
-        print(cur.query)
     except:
         return "Failed to fetch from table."
 
