@@ -33,7 +33,7 @@ def insertOccurrence():
     description = request.form['description']
     
     try:
-        cur.execute("""INSERT INTO OCORRENCIA (Usename, Tipo, OcorrenciaTimestamp, LocalizacaoX, LocalizacaoY, Descricao) VALUES('{}','{}','{}','{}','{}','{}');""".format(user, occurrenceType, timestamp, posx, posy, description))
+        cur.execute("""INSERT INTO OCORRENCIA (Usename, Tipo, OcorrenciaTimestamp, LocalizacaoX, LocalizacaoY, Descricao) VALUES('{}', {},'{}', {}, {},'{}');""".format(user, occurrenceType, timestamp, posx, posy, description))
     except:
         return "Failed to fetch from table."
         
