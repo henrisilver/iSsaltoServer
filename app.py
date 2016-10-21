@@ -1,71 +1,23 @@
+from dbmanagement import dbmanager
 from flask import Flask, request
-import os
-import psycopg2
-import urlparse
 
 app = Flask(__name__)
 
-urlparse.uses_netloc.append("postgres")
-url = urlparse.urlparse(os.environ["DB_URL"])
-
-conn = psycopg2.connect(
-    database=url.path[1:],
-    user=url.username,
-    password=url.password,
-    host=url.hostname,
-    port=url.port
-)
-
-conn.autocommit = True
-cur = conn.cursor()
+manager = dbmanager()
 
 @app.route('/')
 def hello():
     return "This is iSsalto. Welcome. Made by iSsaltantes."
 
-@app.route('/insertOccurrence/', methods=['POST'])
+@app.route('/inserirOcorrencia/', methods=['POST'])
 def insertOccurrence():
-
-    user = request.form['username']
-    occurrenceType = request.form['type']
-    timestamp = request.form['timestamp']
-    posx = request.form['posx']
-    posy= request.form['posy']
-    description = request.form['description']
+    return manager.insertOccurrence(request)
     
-    try:
-        data = (user, int(occurrenceType), timestamp, float(posx), float(posy), description,)
-        cur.execute("""INSERT INTO OCORRENCIA (Username, Tipo, OcorrenciaTimestamp, LocalizacaoX, LocalizacaoY, Descricao) VALUES(%s, %s, %s, %s, %s, %s);""", data)
-        return cur.statusmessage
-    except Exception as e:
-        print(e)
-        return "Failed to insert occurence into table"
         
 @app.route('/ocorrencias/u=<username>')
-def getOcorrencias(username):
-    try:
-        data = (username,)
-        cur.execute("""SELECT * from Usuario where Username=%s;""", data)
-    except:
-        return "Failed to fetch from table."
-
-    rows = cur.fetchall()
-    if len(rows) != 1:
-        return "Error: no such username."
-
-    user = rows[0]
-
-    #TODO: create class for user.
-    searchRadius = user[2]
-    posXUser = user[3]
-    posYUser = user[4]
-
-    cur.execute("""SELECT * from Ocorrencia where LocalizacaoX >= {} AND LocalizacaoX <= {} AND LocalizacaoY >= {} AND LocalizacaoY <= {}""".format(posXUser - searchRadius, posXUser + searchRadius, posYUser - searchRadius, posYUser + searchRadius))
-    rows = cur.fetchall()
-    result = "Ocorrencias:\n"
-    for row in rows:
-        result = result + "Id: " + str(row[0]) + ", Username: " + str(row[1]) + ", Tipo: " + str(row[2]) + ", Data: " + str(row[3]) + ", PosX: " + str(row[4]) + ", PosY: " + str(row[5]) + ", Descricao: " + str(row[6]) + "\n"
-    return result
+def getOccurrences(username):
+    print(username)
+    return manager.getOccurrence(username)
 
 if __name__ == '__main__':
     app.run()

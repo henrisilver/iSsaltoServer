@@ -10,3 +10,4 @@ INSERT INTO TipoOcorrencia (Id, Nome) VALUES (2, 'Invasao de Propriedade');
 INSERT INTO TipoOcorrencia (Id, Nome) VALUES (3, 'Assedio');
 INSERT INTO TipoOcorrencia (Id, Nome) VALUES (4, 'Sequestro');
 INSERT INTO TipoOcorrencia (Id, Nome) VALUES (5, 'Assassinato');
+INSERT INTO TipoOcorrencia (Id, Nome) VALUES (6, 'Roubo de Automóvel');
