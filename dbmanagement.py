@@ -1,4 +1,4 @@
-from flask import request
+from flask import jsonify, request
 from ocorrencia import Ocorrencia
 import os
 import psycopg2
@@ -50,7 +50,26 @@ class dbmanager():
 
         rows = self.cur.fetchall()
 
-        result = "Ocorrencias:\n"
-        for row in rows:
-            result = result + "Id: " + str(row[0]) + ", Username: " + str(row[1]) + ", Tipo: " + str(row[2]) + ", Data: " + str(row[3]) + ", PosX: " + str(row[4]) + ", PosY: " + str(row[5]) + ", Descricao: " + str(row[6]) + "\n"
-        return result
+        result = {}
+        for idx, row in enumerate(rows):
+            rowDict = {}
+            rowDict["id"] = row[0]
+            rowDict["username"] = row[1]
+            rowDict["type"] = row[2]
+            rowDict["timestamp"] = row[3]
+            rowDict["posx"] = row[4]
+            rowDict["posy"] = row[5]
+            rowDict["description"] = row[6]
+            result[str(idx)] = rowDict
+        return jsonify(**result)
+
+
+
+
+
+
+
+
+
+
+

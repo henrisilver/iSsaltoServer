@@ -16,7 +16,6 @@ def insertOccurrence():
         
 @app.route('/ocorrencias/u=<username>')
 def getOccurrences(username):
-    print(username)
     return manager.getOccurrence(username)
 
 if __name__ == '__main__':
