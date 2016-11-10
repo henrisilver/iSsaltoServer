@@ -6,6 +6,7 @@ import urlparse
 from usuario import Usuario
 
 INSERT_OCCURRENCE_STATEMENT = "INSERT INTO OCORRENCIA (Username, Tipo, OcorrenciaTimestamp, LocalizacaoX, LocalizacaoY, Descricao) VALUES(%s, %s, %s, %s, %s, %s);"
+INSERT_USER_STATEMENT = "INSERT INTO Usuario (Username, Hash, RaioDeBusca, PosX, PosY) VALUES(%s, %s, %s, %s, %s);"
 GET_USER_STATEMENT = "SELECT * from Usuario where Username=%s;"
 GET_OCCURRENCES_STATEMENT = "SELECT * from Ocorrencia where LocalizacaoX >= %s AND LocalizacaoX <= %s AND LocalizacaoY >= %s AND LocalizacaoY <= %s;"
 
@@ -36,13 +37,13 @@ class dbmanager():
             return "Failed to insert occurence into table"
 
     def registerUser(self, request):
-        occurrence = Ocorrencia(request)
+        user = Usuario.fromRegisterUser(request)
         try:
-            self.cur.execute(INSERT_OCCURRENCE_STATEMENT, occurrence.getData())
+            self.cur.execute(INSERT_USER_STATEMENT, user.getData())
             return "Success"
         except Exception as e:
             print(e)
-            return "Failed to insert occurence into table"
+            return "Failed to insert user into table"
 
     def getOccurrence(self, username):
         try:
