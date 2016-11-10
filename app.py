@@ -9,6 +9,10 @@ manager = dbmanager()
 def hello():
     return "This is iSsalto. Welcome. Made by iSsaltantes."
 
+@app.route('/registrarUsuario/', methods=['POST'])
+def registerUser():
+    return manager.registerUser(request)
+
 @app.route('/inserirOcorrencia/', methods=['POST'])
 def insertOccurrence():
     return manager.insertOccurrence(request)

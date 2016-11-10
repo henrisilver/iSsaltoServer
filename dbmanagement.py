@@ -35,6 +35,15 @@ class dbmanager():
             print(e)
             return "Failed to insert occurence into table"
 
+    def registerUser(self, request):
+        occurrence = Ocorrencia(request)
+        try:
+            self.cur.execute(INSERT_OCCURRENCE_STATEMENT, occurrence.getData())
+            return "Success"
+        except Exception as e:
+            print(e)
+            return "Failed to insert occurence into table"
+
     def getOccurrence(self, username):
         try:
             data = (username,)
@@ -45,7 +54,7 @@ class dbmanager():
 
         userDBEntry = self.cur.fetchone()
 
-        user = Usuario(userDBEntry)
+        user = Usuario.fromUserDBEntry(userDBEntry)
         self.cur.execute(GET_OCCURRENCES_STATEMENT, user.getSearchAreaTuple())
 
         rows = self.cur.fetchall()
