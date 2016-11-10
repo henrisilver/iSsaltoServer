@@ -18,7 +18,7 @@ class Usuario():
         userData = []
         userData.append(request.form['username'])
         userData.append(request.form['hash'])
-        userData.append(float(request.form['searchradius'])
+        userData.append(float(request.form['searchradius']))
         userData.append(float(request.form['posx']))
         userData.append(float(request.form['posy']))
 
