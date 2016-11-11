@@ -5,7 +5,7 @@
 -- \i <PATH_PARA_ESTE_SCRIPT>
 DELETE FROM Ocorrencia;
 DELETE from Usuario;
-INSERT INTO Usuario VALUES ('Cassio', 'fd3409cbae982', 10.0, 20.0, 20.0);
+INSERT INTO Usuario VALUES ('Cassio', 'fd3409cbae982', 100000000.0, -22.0060879521827, -47.8954013809562);
 INSERT INTO Usuario VALUES ('Fagner', 'abcdef1234567', 20.0, 30.0, 30.0);
 INSERT INTO Usuario VALUES ('Walter', '7654321fedbca', 5.5, 87.0, 42.0);
 INSERT INTO Usuario VALUES ('Guilherme', 'a1b2c3d4e5f67', 1.0, 40.0, 5.0);

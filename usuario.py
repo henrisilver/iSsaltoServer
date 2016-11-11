@@ -17,7 +17,7 @@ class Usuario():
     def fromRegisterUser(cls, request):
         userData = []
         userData.append(request.form['username'])
-        userData.append(request.form['hash'])
+        userData.append(request.form['password'])
         userData.append(float(request.form['searchradius']))
         userData.append(float(request.form['posx']))
         userData.append(float(request.form['posy']))
@@ -25,7 +25,7 @@ class Usuario():
         return  cls(userData)
 
     def getSearchAreaTuple(self):
-        return (self.posX - self.searchRadius, self.posX + self.searchRadius, self.posY - self.searchRadius, self.posY + self.searchRadius,)
+        return (self.posX , self.posX , self.posY, self.posY, self.searchradius**2)
 
     def getData(self):
         return (self.username, self.hash, self.searchRadius, self.posX, self.posY,)

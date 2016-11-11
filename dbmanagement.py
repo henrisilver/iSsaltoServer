@@ -8,7 +8,7 @@ from usuario import Usuario
 INSERT_OCCURRENCE_STATEMENT = "INSERT INTO OCORRENCIA (Username, Tipo, OcorrenciaTimestamp, LocalizacaoX, LocalizacaoY, Descricao) VALUES(%s, %s, %s, %s, %s, %s);"
 INSERT_USER_STATEMENT = "INSERT INTO Usuario (Username, Hash, RaioDeBusca, PosX, PosY) VALUES(%s, %s, %s, %s, %s);"
 GET_USER_STATEMENT = "SELECT * from Usuario where Username=%s;"
-GET_OCCURRENCES_STATEMENT = "SELECT * from Ocorrencia where LocalizacaoX >= %s AND LocalizacaoX <= %s AND LocalizacaoY >= %s AND LocalizacaoY <= %s;"
+GET_OCCURRENCES_STATEMENT = "SELECT * from Ocorrencia where ((LocalizacaoX-%s)*(LocalizacaoX-%s)+(LocalizacaoX-%s)*(LocalizacaoX-%s)) <= %s;"
 
 # Class providing database management tools
 class dbmanager():
