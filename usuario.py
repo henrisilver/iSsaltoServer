@@ -25,7 +25,7 @@ class Usuario():
         return  cls(userData)
 
     def getSearchAreaTuple(self):
-        return (self.posX , self.posX , self.posY, self.posY, self.searchradius**2)
+        return (self.posX , self.posX , self.posY, self.posY, self.searchRadius**2)
 
     def getData(self):
         return (self.username, self.hash, self.searchRadius, self.posX, self.posY,)
