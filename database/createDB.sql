@@ -12,7 +12,7 @@ CREATE TABLE TipoOcorrencia( -- Tabela que modela um tipo de ocorrencia
 
 CREATE TABLE Usuario( -- Tabela que modela um usuario do sistema
 	Username varchar(45) NOT NULL PRIMARY KEY, -- Username do usuario
-	Hash varchar(45) NOT NULL, -- hash que armazena a senha do usuário
+	Hash varchar(128) NOT NULL, -- hash que armazena a senha do usuário
 	RaioDeBusca double precision NOT NULL, -- raio a partir do ponto de interesse do usurario para busca de ocorrencias
 	PosX double precision NOT NULL, -- longitude do ponto de interesse do usuario
 	PosY double precision NOT NULL -- latitude do ponto de interesse do usuario

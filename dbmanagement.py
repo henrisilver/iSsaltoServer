@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify, request, abort
 from ocorrencia import Ocorrencia
 import os
 import psycopg2
@@ -38,12 +38,24 @@ class dbmanager():
 
     def registerUser(self, request):
         user = Usuario.fromRegisterUser(request)
+
         try:
-            self.cur.execute(INSERT_USER_STATEMENT, user.getData())
-            return "Success"
+            data = (user.username,)
+            self.cur.execute(GET_USER_STATEMENT, data)
         except Exception as e:
             print(e)
-            return "Failed to insert user into table"
+            return "Failed to fetch from table"
+
+        if self.cur.fetchone() is None:
+            try:
+                self.cur.execute(INSERT_USER_STATEMENT, user.getData())
+                return "Success"
+            except Exception as e:
+                print(e)
+                return "Failed to insert user into table"
+        else:
+            return "Invalid username! Existing user"
+        
 
     def parseOccurrences(self, rows):
         result = {}
