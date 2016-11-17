@@ -21,9 +21,9 @@ def insertOccurrence():
 def getOccurrences(username):
     return manager.getOccurrences(username)
         
-@app.route('/ocorrencias/x=<float:posx>&y=<float:posy>&r=<float:radius>')
+@app.route('/ocorrencias/x=<posx>&y=<posy>&r=<radius>')
 def getOccurrencesCustom(posx, posy, radius):
-    return manager.getOccurrencesCustom(posx,posy,radius)
+    return manager.getOccurrencesCustom(float(posx), float(posy), float(radius))
 
 if __name__ == '__main__':
     app.run()
