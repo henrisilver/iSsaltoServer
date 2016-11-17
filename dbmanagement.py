@@ -45,7 +45,21 @@ class dbmanager():
             print(e)
             return "Failed to insert user into table"
 
-    def getOccurrence(self, username):
+    def parseOccurrences(self, rows):
+        result = {}
+        for idx, row in enumerate(rows):
+            rowDict = {}
+            rowDict["id"] = row[0]
+            rowDict["username"] = row[1]
+            rowDict["type"] = row[2]
+            rowDict["timestamp"] = row[3]
+            rowDict["posx"] = row[4]
+            rowDict["posy"] = row[5]
+            rowDict["description"] = row[6]
+            result[str(idx)] = rowDict
+        return jsonify(**result)
+
+    def getOccurrences(self, username):
         try:
             data = (username,)
             self.cur.execute(GET_USER_STATEMENT, data)
@@ -60,18 +74,14 @@ class dbmanager():
 
         rows = self.cur.fetchall()
 
-        result = {}
-        for idx, row in enumerate(rows):
-            rowDict = {}
-            rowDict["id"] = row[0]
-            rowDict["username"] = row[1]
-            rowDict["type"] = row[2]
-            rowDict["timestamp"] = row[3]
-            rowDict["posx"] = row[4]
-            rowDict["posy"] = row[5]
-            rowDict["description"] = row[6]
-            result[str(idx)] = rowDict
-        return jsonify(**result)
+        return self.parseOccurrences(rows)
+
+    def getOccurrencesCustom(self, posx, posy, radius):
+        self.cur.execute(GET_OCCURRENCES_STATEMENT, (posx, posx, posy, posy, radius**2,))
+
+        rows = self.cur.fetchall()
+
+        return self.parseOccurrences(rows)
 
 
 

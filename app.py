@@ -17,10 +17,13 @@ def registerUser():
 def insertOccurrence():
     return manager.insertOccurrence(request)
     
-        
 @app.route('/ocorrencias/u=<username>')
 def getOccurrences(username):
-    return manager.getOccurrence(username)
+    return manager.getOccurrences(username)
+        
+@app.route('/ocorrencias/x=<float:posx>&y=<float:posy>&r=<float:radius>')
+def getOccurrencesCustom(posx, posy, radius):
+    return manager.getOccurrencesCustom(posx,posy,radius)
 
 if __name__ == '__main__':
     app.run()
