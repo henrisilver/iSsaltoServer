@@ -11,8 +11,9 @@ CREATE TABLE TipoOcorrencia( -- Tabela que modela um tipo de ocorrencia
 );
 
 CREATE TABLE Usuario( -- Tabela que modela um usuario do sistema
-	Username varchar(45) NOT NULL PRIMARY KEY, -- Username do usuario
-	Hash varchar(128) NOT NULL, -- hash que armazena a senha do usuário
+	Email varchar(120) NOT NULL PRIMARY KEY, -- email do usuário
+	Username varchar(120) NOT NULL, -- Username do usuario
+	Hash varchar(128), -- hash que armazena a senha do usuário
 	RaioDeBusca double precision NOT NULL, -- raio a partir do ponto de interesse do usurario para busca de ocorrencias
 	PosX double precision NOT NULL, -- longitude do ponto de interesse do usuario
 	PosY double precision NOT NULL -- latitude do ponto de interesse do usuario
@@ -20,7 +21,7 @@ CREATE TABLE Usuario( -- Tabela que modela um usuario do sistema
 
 CREATE TABLE Ocorrencia( -- Tabela que modela uma ocorrencia registrada
 	Id serial NOT NULL PRIMARY KEY, -- Identificador da Ocorrencia
-	Username varchar(45) NOT NULL REFERENCES Usuario(Username), -- Username que registrou a ocorrencia
+	Email varchar(45) NOT NULL REFERENCES Usuario(Email), -- Username que registrou a ocorrencia
 	Tipo integer NOT NULL REFERENCES TipoOcorrencia(Id), -- Tipo da ocorrencia em questao
 	OcorrenciaTimestamp timestamp NOT NULL, -- Timestamp da ocorrencia
 	LocalizacaoX double precision NOT NULL, -- Longitude da ocorrencia
