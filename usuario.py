@@ -48,5 +48,8 @@ class Usuario():
     def getData(self):
         return (self.email, self.username, self.hash, self.searchRadius, self.posX, self.posY,)
 
+    def updateData(self):
+        return (self.searchRadius, self.posX, self.posY, self.email,)
+
     def getDataFacebook(self):
         return (self.email, self.username, self.searchRadius, self.posX, self.posY,)

@@ -10,6 +10,7 @@ from usuario import Usuario
 INSERT_OCCURRENCE_STATEMENT = "INSERT INTO OCORRENCIA (Email, Tipo, OcorrenciaTimestamp, LocalizacaoX, LocalizacaoY, Descricao) VALUES(%s, %s, %s, %s, %s, %s);"
 INSERT_USER_FACEBOOK_STATEMENT = "INSERT INTO Usuario (Email, Username, RaioDeBusca, PosX, PosY) VALUES(%s, %s, %s, %s, %s);"
 INSERT_USER_STATEMENT = "INSERT INTO Usuario (Email, Username, Hash, RaioDeBusca, PosX, PosY) VALUES(%s, %s, %s, %s, %s, %s);"
+UPDATE_USER_STATEMENT = "UPDATE Usuario SET RaioDeBusca = %s, PosX = %s, PosY = %s WHERE Email = %s;"
 GET_USER_STATEMENT = "SELECT * from Usuario where Email=%s;"
 GET_OCCURRENCES_STATEMENT = "SELECT * from Ocorrencia where ((LocalizacaoX-%s)*(LocalizacaoX-%s)+(LocalizacaoX-%s)*(LocalizacaoX-%s)) <= %s;"
 
@@ -36,6 +37,51 @@ class dbmanager():
         occurrence = Ocorrencia(request)
         try:
             self.cur.execute(INSERT_OCCURRENCE_STATEMENT, occurrence.getData())
+            return "Success"
+        except Exception as e:
+            print(e)
+            return "Failed to insert occurence into table"
+
+    def modifyUser(self, request, token):
+        try:
+            email = request.form['email']
+        except:
+            return "No email field in request!"
+        
+        user = self.fetchUser(email)
+        r = requests.get('https://graph.facebook.com/me?fields=name,email&access_token=' + str(token))
+        if r.status_code != 200:
+            return False
+        data = r.json()
+
+        emailToken = data['email']
+
+        if email != emailToken:
+            return "The email provided does not match email associated to Facebook token!"
+        
+        try:
+            sr = request.form['searchradius']
+            user.searchRadius = float(sr)
+        except:
+            print "Sr not present"
+            pass
+
+        try:
+            px = request.form['posx']
+            user.posX = float(px)
+        except:
+            print "px not present"
+            pass
+
+        try:
+            py = request.form['posy']
+            user.posY = float(py)
+        except:
+            print "py not present"
+            pass
+
+        try:
+            self.cur.execute(UPDATE_USER_STATEMENT, user.updateData())
             return "Success"
         except Exception as e:
             print(e)

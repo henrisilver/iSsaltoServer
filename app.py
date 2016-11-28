@@ -1,5 +1,5 @@
 from dbmanagement import dbmanager
-from flask import Flask, request
+from flask import Flask, request, g
 from flask_httpauth import HTTPBasicAuth
 
 auth = HTTPBasicAuth()
@@ -20,6 +20,11 @@ def registerUser():
 @auth.login_required
 def insertOccurrence():
     return manager.insertOccurrence(request)
+
+@app.route('/modificaUsuario/', methods=['POST'])
+@auth.login_required
+def modifyUser():
+    return manager.modifyUser(request, g.token)
     
 @app.route('/ocorrencias/e=<email>')
 @auth.login_required
@@ -44,6 +49,7 @@ def getToken():
 # TODO: integrate standard login (disabled) and Facebook login
 @auth.verify_password
 def login(token, unused):
+    g.token = token
     return manager.verifyFacebookLogin(token)
 
 if __name__ == '__main__':
